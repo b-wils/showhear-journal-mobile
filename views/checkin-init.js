@@ -2,23 +2,25 @@ import React, {View, Text, StyleSheet, TouchableHighlight} from 'react-native'
 import Button from 'react-native-button'
 import {Actions} from 'react-native-router-flux'
 
-export default class Home extends React.Component {
+export default class CheckinInit extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to Showhear Journal!
+          Are you at mohawk?
         </Text>
         <Button
             onPress={Actions.checkinInit}
         >
-            Check In
+            Yes
+        </Button>
+        <Button
+            onPress={Actions.checkinInit}
+        >
+            No
         </Button>
       </View>
     );
-  }
-  _handleCheckinPress(event) {
-    console.log('hi!');
   }
 }
 
