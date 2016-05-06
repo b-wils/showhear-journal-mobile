@@ -2,18 +2,20 @@ import React, {View, Text, StyleSheet, TouchableHighlight} from 'react-native'
 import Button from 'react-native-button'
 import {Actions} from 'react-native-router-flux'
 
-const MAX_LOCATIONS = 8;
-var testLocations = ['Mohawk', 'Cheer up Charlies', 'Barracuda', 'Sidewinder', 'Empire Control Room', "Stubb's"];
+var testArtists = ['Hikes', 'Boyfrndz', 'Chipper Jones'];
 
-export default class CheckinInit extends React.Component {
+export default class CheckinComplete extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Are you at?
+          We've checked you into {this.props.venue}
         </Text>
-        { testLocations.map(function(item) {
-                return <LocationButton name={item} key={item}/>
+        <Text style={styles.welcome}>
+          The bands tonight are:
+        </Text>
+        { testArtists.map(function(item) {
+                return <ArtistButton name={item} key={item}/>
             })
         }
       </View>
@@ -21,11 +23,11 @@ export default class CheckinInit extends React.Component {
   }
 }
 
-class LocationButton extends React.Component {
+class ArtistButton extends React.Component {
   render() {
     return (
       <Button
-          onPress={()=>Actions.checkinComplete({venue:this.props.name})}
+          onPress={Actions.checkinInit}
       >
           {this.props.name}
       </Button>
