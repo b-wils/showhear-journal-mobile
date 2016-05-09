@@ -5,7 +5,7 @@ import {Actions} from 'react-native-router-flux'
 const MAX_LOCATIONS = 8;
 var testLocations = ['Mohawk', 'Cheer up Charlies', 'Barracuda', 'Sidewinder', 'Empire Control Room', "Stubb's"];
 
-var REQUEST_URL = 'http://localhost:5000/api/venues/search';
+var REQUEST_URL = 'http://192.168.228.2:5000/api/venues/search';
 
 export default class CheckinInit extends React.Component {
 
@@ -15,12 +15,13 @@ export default class CheckinInit extends React.Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      dataSource: ds.cloneWithRows(testLocations)
+      dataSource: ds,
+      loaded: false
     };
   }
 
   componentDidMount() {
-    // this.fetchData();
+    this.fetchData();
   }
 
   fetchData() {
@@ -28,7 +29,7 @@ export default class CheckinInit extends React.Component {
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
           loaded: true,
         });
       })
@@ -37,24 +38,25 @@ export default class CheckinInit extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Are you at?
-        </Text>
-        <View>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderVenue}
-            style={styles.listView}
-          />
+      
+        <View style={styles.container}>
+          <Text style={styles.welcome}>
+            Are you at? {this.state.loaded ? 'yes' : 'no'}
+          </Text>
+          <View>
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this.renderVenue}
+              style={styles.listView}
+            />
+          </View>
         </View>
-      </View>
     );
   }
 
   renderVenue(venue) {
     return (
-      <LocationButton name={venue} key={venue}/>
+      <LocationButton name={venue.display_name} key={venue._id}/>
     );
   }
 
